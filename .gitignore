@@ -1,1 +1,8 @@
-/bin/
+bin/
+.metadata/
+.settings/
+*.log
+*.prefs
+.metadata
+**/bin
+**/.settings
