@@ -1,27 +1,28 @@
+package cliente;
 import java.io.Serializable;
 
 public class DataTransferDto implements Serializable {
-	private static final long serialVersionUID = 1L; //Esto lo pide el eclipse por implementar serializable.
-	private String message;
+	private static final long serialVersionUID = 1L; // Esto lo pide el eclipse por implementar serializable.
+	private Message message;
 	private boolean isError;
 	private String command;
 
-	public DataTransferDto(String message, boolean isError, String command) {
+	public DataTransferDto(Message message, boolean isError, String command) {
 		this.message = message;
 		this.isError = isError;
 		this.command = command;
 	}
 
-	public DataTransferDto(String message, String command) {
+	public DataTransferDto(Message message, String command) {
 		this.message = message;
 		this.command = command;
 	}
 
 	public String getMessage() {
-		return this.message;
+		return this.message.getMessage();
 	}
 
-	public void setMessage(String message) {
+	public void setMessage(Message message) {
 		this.message = message;
 	}
 

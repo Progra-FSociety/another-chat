@@ -1,3 +1,4 @@
+package cliente;
 import java.io.ObjectOutputStream;
 import java.io.IOException;
 import java.net.Socket;
@@ -5,10 +6,10 @@ import com.google.gson.*;
 
 public class Write extends Thread {
 	private Gson gsonHelper;
-	private Lobby lobby;
+	private Client lobby;
 	private ObjectOutputStream output;
 
-	public Write(Socket socket, Lobby lobby) {
+	public Write(Socket socket, Client lobby) {
 		this.lobby = lobby;
 
 		try {

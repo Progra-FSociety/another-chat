@@ -1,15 +1,17 @@
-import java.io.IOException;
+package cliente;
 import java.io.ObjectInputStream;
+import java.io.IOException;
 import java.net.Socket;
 import com.google.gson.*;
 
-public class Read extends Thread{
+public class Read extends Thread {
 	private Gson data;
 	private Socket socket;
-	private Lobby lobby;
+	private Client lobby;
 	private ObjectInputStream input;
+	
 
-	public Read(Socket socket, Lobby lobby) {
+	public Read(Socket socket, Client lobby) {
 		this.socket = socket;
 		this.lobby = lobby;
 
@@ -22,7 +24,7 @@ public class Read extends Thread{
 		}
 	}
 
-	public void run()  {
+	public void run() {
 		while (true) {
 			try {
 				String text = (String) input.readObject();
@@ -33,7 +35,8 @@ public class Read extends Thread{
 				else {
 					System.out.print(response.getMessage());
 				}
-				wait(); //Este método sirve para dejarlo esperando hasta que le llegue un "read.notify()" de la clase lobby.
+				wait(); // Este método sirve para dejarlo esperando hasta que le llegue un
+						// "read.notify()" de la clase lobby.
 			} catch (IOException ex) {
 				System.out.println("Error al ir a buscar la información: " + ex.getMessage());
 				ex.printStackTrace();

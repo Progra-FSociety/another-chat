@@ -1,12 +1,12 @@
+package cliente;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.List;
+import com.google.gson.*;
 
-import com.google.gson.JsonElement;
-
-public class Lobby {
+public class Client {
 	private String userName;
 	private String ip;
 	private int port;
@@ -17,7 +17,12 @@ public class Lobby {
 	private Read reader;
 	private Write writer;
 
-	public Lobby(String ip, int port) {
+	/*
+	 * inicia el servidor - levanta el lobby salas de chats - <- se une cliente
+	 * 
+	 */
+
+	public Client(String ip, int port) {
 		try {
 			this.connection = new Socket(ip, port);
 		} catch (IOException e) {
@@ -44,6 +49,9 @@ public class Lobby {
 				"Para escribirle a alguien por privado, hacelo de esta manera: \"{nombre usuario} {mensaje}.\"");
 		System.out.println("Para volver a ver la ayuda, escribí \"help-commands-chat\"");
 	}
+	/*
+	 * [sala1,sala2] command: {Sala 1} hola gente
+	 */
 
 	public void showChats() {
 
@@ -67,7 +75,12 @@ public class Lobby {
 		writer.start();
 	}
 
+	@SuppressWarnings("deprecation")
 	private void stopConenction() {
+		reader.suspend();
+		reader.stop();
+		writer.suspend();
+		writer.stop();
 		//
 	}
 

@@ -7,5 +7,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="C:/Users/Gasto/Downloads/gson-2.6.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/sooii/Downloads/gson-2.6.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/sooii/OneDrive/Desktop/Ejercicios_Java/another-chat/gson-2.6.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
