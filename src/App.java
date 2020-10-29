@@ -4,7 +4,6 @@ public class App {
 		Lobby lobby = new Lobby("localhost",10000);
 		//posibilidad de crear un lobby.starMenu();
 		
-		
 		lobby.startLobby(); //Le va a dar la bienvenida y le va a pedir su nombre de usuario.
 		//y le explica como volver al lobby luego de elegir el/los chats
 		lobby.showChats(); //Le muestro los chats para seleccionar alguno.
