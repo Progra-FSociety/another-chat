@@ -10,7 +10,10 @@ public class App {
 		lobby.showChats(); // Le muestro los chats para seleccionar alguno.
 		lobby.createOrSelectChats(); // Este le pide que elija uno o cree y
 		// le explica con qué formato escribir en la consola
-
+		
+		
+		//acá hay que dejar un while que esté leyendo todo el tiemp lo que escribe el usuario en consola 
+		//y llame al analyzeinput() pasandole lo que escribió.
 	}
 }
 

@@ -15,7 +15,7 @@ public class Client {
 	DataInputStream input;
 	private DataTransferDto request;
 	private Read reader;
-	private Write writer;
+	private Write writer; 
 
 	/*
 	 * inicia el servidor - levanta el lobby salas de chats - <- se une cliente
@@ -36,11 +36,11 @@ public class Client {
 		System.out.println("Nombre de usuario: _");
 		this.userName = System.console().readLine();
 		System.out.println("Hola " + this.userName + ".");
-		showHelp();
+		showGuide();
 		this.showChats();
 	}
 
-	public void showHelp() {
+	public void showGuide() {
 		System.out.println("Para salir de algún chat que elijas, escribí \"exit {nombre del chat}\"");
 		System.out.println("Para crear un chat en cualquier momento, escribí \"create {nombre del chat}\"");
 		System.out.println("Para unirte a un chat en cualquier momento, escribí \"join {nombre del chat}\"");
@@ -105,6 +105,8 @@ public class Client {
 		createRequest(command, message);
 	}
 
+	//PARA MANDARLE MENSAJES AL SERVIDOR, SE USA WRITER.NOTIFY() PORQUE EL NOTIFY LE AVISA AL HILO QUE EMPIECE A EJECUTARSE DE NUEVO.
+	//
 	private void createRequest(String command, String message) {
 		this.request = new DataTransferDto(message, command);
 		writer.notify(); // Así hacemos que deje de esperar y le mande el comando al server...

@@ -6,11 +6,11 @@ import com.google.gson.*;
 
 public class Write extends Thread {
 	private Gson gsonHelper;
-	private Client lobby;
+	private Client client;
 	private ObjectOutputStream output;
 
 	public Write(Socket socket, Client lobby) {
-		this.lobby = lobby;
+		this.client = lobby;
 
 		try {
 			output = new ObjectOutputStream(socket.getOutputStream());
@@ -24,7 +24,7 @@ public class Write extends Thread {
 	public void run() {
 		while (true) {
 			try {
-				output.writeObject(gsonHelper.toJson(lobby.getRequest()));
+				output.writeObject(gsonHelper.toJson(client.getRequest()));
 				wait(); // Lo hago esperar hasta que necesita enviar algún request nuevo.
 			} catch (IOException ex) {
 				System.out.println("Error al ir al enviar la información: " + ex.getMessage());
