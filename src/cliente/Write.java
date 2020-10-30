@@ -14,6 +14,7 @@ public class Write extends Thread {
 
 		try {
 			output = new ObjectOutputStream(socket.getOutputStream());
+			output.flush();	
 			gsonHelper = new Gson();
 		} catch (IOException ex) {
 			System.out.println("Error getting input stream: " + ex.getMessage());

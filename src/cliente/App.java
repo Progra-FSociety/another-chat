@@ -1,38 +1,21 @@
 package cliente;
 
+import java.util.Scanner;
+
 public class App {
 	public static void main(String[] args) {
-		Client lobby = new Client("localhost", 10000);
-		// posibilidad de crear un lobby.starMenu();
+		Client client = new Client("localhost", 8000);
+		Scanner entradaTeclado = new Scanner(System.in);
 
-		lobby.startLobby(); // Le va a dar la bienvenida y le va a pedir su nombre de usuario.
-		// y le explica como volver al lobby luego de elegir el/los chats
-		lobby.showChats(); // Le muestro los chats para seleccionar alguno.
-		lobby.createOrSelectChats(); // Este le pide que elija uno o cree y
-		// le explica con qué formato escribir en la consola
-		
-		
-		//acá hay que dejar un while que esté leyendo todo el tiemp lo que escribe el usuario en consola 
-		//y llame al analyzeinput() pasandole lo que escribió.
+		client.startLobby();
+
+		while (true) {
+			String literal;
+			System.out.print("[" + client.getFormatedDate() + "] " + client.getUserName() + ":"); // Se va a escribir
+																									// dos veces¿?
+			literal = entradaTeclado.nextLine();
+			client.analyzeInput(literal);
+		}
+
 	}
 }
-
-//Hace esto.
-//Chats:
-// - Nombre chat - Usuarios que lo conforman
-// - Nombre chat - Usuarios que lo conforman
-// - Nombre chat - Usuarios que lo conforman
-// - Nombre chat - Usuarios que lo conforman
-// - Nombre chat - Usuarios que lo conforman
-// - Nombre chat - Usuarios que lo conforman
-
-//Qué desea hacer?
-//c --> create chat --> Qué nombre quiere ponerle al chat? --> Chat creado Refresco
-
-//a --> unirme a chats. --> a qué chats te querés unir? (Escribo la lista de chats)
-//Escrbí los chats con el formato {chat 1} | {chat 2} | {chat n} (máximo 3 chats)
-//s --> salir.
-
-//VENTANA DE UNIDO A CHATS.
-//Conversación
-//Para escribir en x 
