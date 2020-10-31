@@ -31,7 +31,7 @@ public class Read extends Thread {
 			try {
 				String text = (String) input.readObject();
 				DataTransferObject response = data.fromJson(text, DataTransferObject.class);
-				System.out.print(response.getFormatedMessage());
+				System.out.println(response.getFormatedMessage());
 			} catch (IOException ex) {
 				System.out.println("Error al ir a buscar la informacion: " + ex.getMessage());
 				ex.printStackTrace();

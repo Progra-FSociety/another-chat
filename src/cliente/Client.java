@@ -103,7 +103,7 @@ public class Client extends Thread {
 				this.request = new DataTransferObject(msg, command);
 				synchronized(this) {
 					   this.notify();
-					}
+				}
 			} else {
 				System.out.println("Ups. No es un comando valido.");
 			}
