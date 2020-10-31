@@ -14,16 +14,17 @@ import java.util.List;
 import com.google.gson.*;
 
 public class ClientListener extends Thread {
-	private Gson gsonHelper;
-	private Socket socket;
-	private String ip;
-	private ObjectInputStream input;
+	private final Gson gsonHelper;
+	private final Socket socket;
+	private final String ip;
+	private final ObjectInputStream input;
 	private List<Chat> chats;
-	private ObjectOutputStream output;
+	private final ObjectOutputStream output;
 
-	private Class[] commandParameters;
+	private final Class[] commandParameters;
 
 	public ClientListener(Socket clientSocket, ObjectInputStream input, ObjectOutputStream output) {
+		this.gsonHelper = new Gson();
 		this.input = input;
 		this.output = output;
 		this.ip = clientSocket.getInetAddress().getHostAddress();
@@ -42,22 +43,19 @@ public class ClientListener extends Thread {
 				Class<Command> cls = (Class<Command>) Class.forName(response.getCommand());
 				Method method;
 				try {
-					Object obj = cls.getDeclaredConstructor(commandParameters).newInstance(new Object[] {
-							Server.getConnections(), chats, Server.getRooms(), this, response.getMessage() });
-					method = cls.getDeclaredMethod("execute", new Class[] {});
-					method.invoke(obj, null);
+					Object obj = cls.getDeclaredConstructor(commandParameters).newInstance(Server.getConnections(), chats, Server.getRooms(), this, response.getMessage());
+					method = cls.getDeclaredMethod("execute");
+					method.invoke(obj, (Object) null);
 				} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
 						| InvocationTargetException | InstantiationException e) {
 					e.printStackTrace();
 				}
 
 			} catch (IOException ex) {
-				System.out.println("Error al ir al enviar la información: " + ex.getMessage());
+				System.out.println("Error al ir al enviar la informacion: " + ex.getMessage());
 				ex.printStackTrace();
 				break;
-			} catch (JsonSyntaxException e) {
-				e.printStackTrace();
-			} catch (ClassNotFoundException e) {
+			} catch (JsonSyntaxException | ClassNotFoundException e) {
 				e.printStackTrace();
 			}
 		}

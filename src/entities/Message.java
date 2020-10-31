@@ -30,6 +30,7 @@ public class Message implements Serializable {
 
 	public Message(String nick, String bodymsg) {
 		this.nick = nick;
+		assert dateFormat != null;
 		this.sendDate = dateFormat.format(new Date());
 		this.bodyMsg = bodymsg;
 	}

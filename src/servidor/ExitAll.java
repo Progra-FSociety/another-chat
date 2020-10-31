@@ -1,19 +1,18 @@
 package servidor;
 
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
-import java.util.stream.Collectors;
-
 import entities.DataTransferObject;
 import entities.Message;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class ExitAll extends Command {
 
-	private List<Chat> chats;
-	private List<ClientListener> clients;
-	private ClientListener client;
-	private Message message;
+	private final List<Chat> chats;
+	private final List<ClientListener> clients;
+	private final ClientListener client;
+	private final Message message;
 
 	public ExitAll(List<ClientListener> clients, List<Chat> chats, List<Chat> roomsServer, ClientListener client,
 			Message message) {

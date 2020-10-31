@@ -6,12 +6,6 @@ public class DataTransferObject implements Serializable, Cloneable {
 	private static final long serialVersionUID = 1L; // Esto lo pide el eclipse por implementar serializable.
 	private Message message;
 	private String command;
-
-	/**
-	 * Just to send a command.
-	 * 
-	 * @param command
-	 */
 	
 	public DataTransferObject() {
 		

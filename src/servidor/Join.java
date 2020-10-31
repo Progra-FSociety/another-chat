@@ -9,11 +9,11 @@ import entities.DataTransferObject;
 import entities.Message;
 
 public class Join extends Command {
-	private List<Chat> chats;
-	private List<Chat> roomsServer;
-	private Message message;
-	private ClientListener client;
-	private List<ClientListener> clients;
+	private final List<Chat> chats;
+	private final List<Chat> roomsServer;
+	private final Message message;
+	private final ClientListener client;
+	private final List<ClientListener> clients;
 
 	public Join(List<ClientListener> clients, List<Chat> chats, List<Chat> roomsServer, ClientListener client,
 			Message message) {
@@ -30,14 +30,22 @@ public class Join extends Command {
 			msg = new Message(client.getName(),
 					"No se pudo agregar al chat, ya se encuentra en 3 salas de chat.", message.getChat());
 		} else {
-			Chat chat = this.roomsServer.stream().filter(room -> room.chatName.equals(this.message.getChat())).findFirst()
-					.get();
-			chat.users.add(this.message.getNick());
-			this.chats.add(chat);
-			List<ClientListener> clientsListeners = clients.stream().filter(cls -> cls.getChats().contains(chat))
-					.collect(Collectors.toList());
-			for (ClientListener clients : clientsListeners) {
-				msg = new Message(client.getName(),"Se ha unido al chat ", chat.getName());
+			Chat chat = this.roomsServer.stream()
+					.filter(room -> room.chatName.equals(this.message.getChat()))
+					.findFirst().orElse(null);
+			if (chat == null) {
+				msg = new Message(client.getName(),
+						"No se pudo agregar al chat, ya se encuentra en 3 salas de chat.", message.getChat());
+			} else{
+				chat.users.add(this.message.getNick());
+				this.chats.add(chat);
+				List<ClientListener> clientsListeners = clients.stream().filter(cls -> cls.getChats().contains(chat))
+						.collect(Collectors.toList());
+
+				// TODO ver si realmente se quiere hacer esto
+				for (ClientListener clients : clientsListeners) {
+					msg = new Message(client.getName(),"Se ha unido al chat ", chat.getName());
+				}
 			}
 		}
 		DataTransferObject dto = new DataTransferObject(msg);

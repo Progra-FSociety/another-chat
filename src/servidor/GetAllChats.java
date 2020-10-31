@@ -1,17 +1,16 @@
 package servidor;
 
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.List;
-
 import entities.DataTransferObject;
 import entities.Message;
 
+import java.io.IOException;
+import java.util.List;
+
 public class GetAllChats extends Command {
 
-	private List<Chat> roomsServer;
+	private final List<Chat> roomsServer;
 	static List<ClientListener> clients;
-	private ClientListener client;
+	private final ClientListener client;
 
 	public GetAllChats(List<ClientListener> clients, List<Chat> chats, List<Chat> roomsServer, ClientListener client,
 			Message message) {

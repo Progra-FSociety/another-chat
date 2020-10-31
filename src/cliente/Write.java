@@ -7,7 +7,7 @@ import com.google.gson.*;
 
 public class Write extends Thread {
 	private Gson gsonHelper;
-	private Client client;
+	private final Client client;
 	private ObjectOutputStream output;
 
 	public Write(Socket socket, Client client) {
@@ -27,10 +27,10 @@ public class Write extends Thread {
 		synchronized (client) {
 			while (true) {
 				try {
-					client.wait(); // Lo hago esperar hasta que necesita enviar algún request nuevo.
+					client.wait(); // Lo hago esperar hasta que necesita enviar algï¿½n request nuevo.
 					output.writeObject(gsonHelper.toJson(client.getRequest()));
 				} catch (IOException ex) {
-					System.out.println("Error al ir al enviar la información: " + ex.getMessage());
+					System.out.println("Error al ir al enviar la informacion: " + ex.getMessage());
 					ex.printStackTrace();
 					break;
 				} catch (InterruptedException e) {

@@ -9,7 +9,7 @@ import java.text.*;
 
 public class Server extends Thread {
 	ServerSocket socket;
-	static List<ClientListener> clients = new LinkedList<ClientListener>();
+	static List<ClientListener> clients = new LinkedList<>();
 	static List<Chat> rooms;
 
 	public Server() throws IOException {

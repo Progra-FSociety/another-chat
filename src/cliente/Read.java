@@ -9,8 +9,8 @@ import entities.DataTransferObject;
 
 public class Read extends Thread {
 	private Gson data;
-	private Socket socket;
-	private Client lobby;
+	private final Socket socket;
+	private final Client lobby;
 	private ObjectInputStream input;
 
 	public Read(Socket socket, Client lobby) {
@@ -33,7 +33,7 @@ public class Read extends Thread {
 				DataTransferObject response = data.fromJson(text, DataTransferObject.class);
 				System.out.print(response.getFormatedMessage());
 			} catch (IOException ex) {
-				System.out.println("Error al ir a buscar la información: " + ex.getMessage());
+				System.out.println("Error al ir a buscar la informacion: " + ex.getMessage());
 				ex.printStackTrace();
 				break;
 			} catch (ClassNotFoundException e) {
