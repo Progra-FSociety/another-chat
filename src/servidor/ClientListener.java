@@ -1,6 +1,8 @@
 package servidor;
 
-import entities.DataTransferDto;
+import entities.DataTransferObject;
+import entities.Message;
+
 import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -26,28 +28,24 @@ public class ClientListener extends Thread {
 		this.output = output;
 		this.ip = clientSocket.getInetAddress().getHostAddress();
 		this.socket = clientSocket;
-		this.commandParameters = new Class[] { List.class, List.class, String.class };
+		this.commandParameters = new Class[] { List.class, List.class, List.class, ClientListener.class,
+				Message.class };
 	}
 
 	@Override
 	public void run() {
 		while (true) {
 			try {
-				DataTransferDto response = gsonHelper.fromJson((String) input.readObject(), DataTransferDto.class);
-				Class<Command> cls = (Class<Command>) Class.forName(response.getCommand()); // el getcommand es un
-																				// "Exit" Exit.java Exit()
-																				// Creo un objeto a partir
-																				// del string que me llega.
+				String json = (String) input.readObject();
+				DataTransferObject response = gsonHelper.fromJson(json,
+						DataTransferObject.class);
+				Class<Command> cls = (Class<Command>) Class.forName(response.getCommand());
 				Method method;
 				try {
-					Object obj = cls.getDeclaredConstructor(commandParameters)
-							.newInstance(new Object[] { Server.getConnections(), chats, response.getMessage() });
-					method = cls.getDeclaredMethod("execute", new Class[] {}); // Busco un método de la clase creada
-																				// (lo tengo que buscar así porque
-																				// en tiempo de ejecución el
-																				// programa no sabe qué metodos
-																				// tiene).
-					method.invoke(obj, null); // Invoco el método, en este caso el execute.
+					Object obj = cls.getDeclaredConstructor(commandParameters).newInstance(new Object[] {
+							Server.getConnections(), chats, Server.getRooms(), this, response.getMessage() });
+					method = cls.getDeclaredMethod("execute", new Class[] {});
+					method.invoke(obj, null);
 				} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
 						| InvocationTargetException | InstantiationException e) {
 					e.printStackTrace();
@@ -58,10 +56,8 @@ public class ClientListener extends Thread {
 				ex.printStackTrace();
 				break;
 			} catch (JsonSyntaxException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

@@ -10,8 +10,7 @@ import java.text.*;
 public class Server extends Thread {
 	ServerSocket socket;
 	static List<ClientListener> clients = new LinkedList<ClientListener>();
-	List<Chat> rooms;
-	int clientCount = 0;
+	static List<Chat> rooms;
 
 	public Server() throws IOException {
 		this.socket = new ServerSocket(8000);
@@ -22,6 +21,10 @@ public class Server extends Thread {
 
 	public static List<ClientListener> getConnections() {
 		return clients;
+	}
+	
+	public static List<Chat> getRooms() {
+		return rooms;
 	}
 
 	@Override

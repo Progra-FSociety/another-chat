@@ -1,7 +1,9 @@
 package cliente;
 
+import java.io.BufferedReader;
 import java.io.DataInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.net.Socket;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,22 +11,22 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
 
-import entities.DataTransferDto;
+import entities.DataTransferObject;
 import entities.Message;
 
-public class Client {
+public class Client extends Thread {
 	private String userName;
 	private final String GUIDE_COMMAND = "GET-GUIDE";
 	private List<String> chats; // La lista de los chats a los q está unido.
 	private Socket connection;
 	DataInputStream input;
-	private DataTransferDto request;
+	private DataTransferObject request;
 	private Read reader;
 	private Write writer;
 	private SimpleDateFormat dateFormat = new SimpleDateFormat();
 
 	private final static LinkedList<String> COMMANDS = new LinkedList<String>(
-			List.of("CREATE", "EXIT", "JOIN", "SENDPRIVATE", "SENDCHAT", "EXITALL", "GETALLCHATS"));
+			List.of("Create", "Exit", "Join", "SendPrivate", "SendChat", "ExitAll", "GetAllChats"));
 	/*
 	 * inicia el servidor - levanta el lobby salas de chats - <- se une cliente
 	 * 
@@ -42,7 +44,7 @@ public class Client {
 		return this.chats;
 	}
 
-	public DataTransferDto getRequest() {
+	public DataTransferObject getRequest() {
 		return request;
 	}
 
@@ -50,19 +52,15 @@ public class Client {
 		return this.userName;
 	}
 
+	public void setUserName(String name) {
+		this.userName = name;
+	}
+
 	public String getFormatedDate() {
 		return dateFormat.format(new Date());
 	}
 
 	public void startLobby() {
-		System.out.println("Hola! Bienvienido al lobby de FSociety");
-		System.out.println("¿Cómo querés que te llamemos?");
-		System.out.println("Nombre de usuario: _");
-		Scanner scn = new Scanner(System.in);
-		this.userName = scn.next();
-		System.out.println("Hola " + this.userName + ".");
-		scn.nextLine(); // Lo limpio.
-		scn.close(); // Lo cerramos.
 		showGuide(); // Muestro la guía.
 		this.startConnection();
 	}
@@ -83,20 +81,34 @@ public class Client {
 		String[] words = input.split(" ");
 		String command = words[0];
 		String nameChat = words[1];
+		boolean findIt = false;
 
 		if (words[0].toUpperCase() == this.GUIDE_COMMAND) {
 			showGuide();
-		} else if (COMMANDS.contains(command.toUpperCase())) { // Preguntamos si está pidiendo usar un comando
-																// pre-definido.
-			Message msg = new Message(this.userName, input.substring(command.length() + 1 + nameChat.length()).trim(),
-					nameChat);
-			this.request = new DataTransferDto(msg, command);
-			writer.notify();
+
+		} else {
+			for (String item : Client.COMMANDS) {
+				if (item.toUpperCase().equals(command.toUpperCase())) {
+					command = item;
+					findIt = true;
+					break;
+				}
+			}
+			if (findIt) {
+				Message msg = new Message(this.userName,
+						input.substring(command.length() + 1 + nameChat.length()).trim(), nameChat);
+				this.request = new DataTransferObject(msg, command);
+				synchronized(this) {
+					   this.notify();
+					}
+			} else {
+				System.out.println("Ups. No es un comando válido.");
+			}
 		}
 	}
 
 	public void showChats() {
-		this.request = new DataTransferDto(COMMANDS.getLast());
+		this.request = new DataTransferObject(COMMANDS.getLast());
 		writer.notify();
 	}
 
@@ -112,6 +124,24 @@ public class Client {
 
 	public String getExitAllCommand() {
 		return "EXITALL";
+	}
+	
+	private static final String EMPTY_STRING = "";
+
+	public static void main(String[] args) throws IOException {
+		Client client = new Client("localhost", 8000);
+		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+		String text = EMPTY_STRING;
+		System.out.println("Hola! Bienvienido al lobby de FSociety");
+		System.out.println("¿Cómo querés que te llamemos?");
+		System.out.println("Nombre de usuario: _");
+		client.setUserName(reader.readLine());
+		client.startLobby();
+       
+		do {			
+			text = reader.readLine();
+			client.analyzeInput(text);
+		} while (true);
 	}
 
 }

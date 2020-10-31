@@ -2,7 +2,7 @@ package entities;
 
 import java.io.Serializable;
 
-public class DataTransferDto implements Serializable {
+public class DataTransferObject implements Serializable, Cloneable {
 	private static final long serialVersionUID = 1L; // Esto lo pide el eclipse por implementar serializable.
 	private Message message;
 	private String command;
@@ -12,7 +12,12 @@ public class DataTransferDto implements Serializable {
 	 * 
 	 * @param command
 	 */
-	public DataTransferDto(String command) {
+	
+	public DataTransferObject() {
+		
+	}
+	
+	public DataTransferObject(String command) {
 		this.command = command;
 	}
 
@@ -22,19 +27,19 @@ public class DataTransferDto implements Serializable {
 	 * @param message
 	 * @param command
 	 */
-	public DataTransferDto(Message message, String command) {
+	public DataTransferObject(Message message, String command) {
 		this.message = message;
 		this.command = command;
 	}
-	
-	public DataTransferDto(Message message) {
+
+	public DataTransferObject(Message message) {
 		this.message = message;
 	}
 
 	public String getFormatedMessage() {
-		return this.message.getMessage();
+		return this.message.getMessageToChat();
 	}
-	
+
 	public Message getMessage() {
 		return this.message;
 	}
@@ -50,5 +55,14 @@ public class DataTransferDto implements Serializable {
 	public void setCommand(String command) {
 		this.command = command;
 	}
-
+	
+	public Object clone() {
+		Object obj = null;
+		try {
+			obj = super.clone();
+		} catch (CloneNotSupportedException ex) {
+			ex.printStackTrace();
+		}
+		return obj;
+	}
 }

@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.net.Socket;
 import com.google.gson.*;
 
-import entities.DataTransferDto;
+import entities.DataTransferObject;
 
 public class Read extends Thread {
 	private Gson data;
@@ -30,10 +30,8 @@ public class Read extends Thread {
 		while (true) {
 			try {
 				String text = (String) input.readObject();
-				DataTransferDto response = data.fromJson(text, DataTransferDto.class);
+				DataTransferObject response = data.fromJson(text, DataTransferObject.class);
 				System.out.print(response.getFormatedMessage());
-//				wait(); // Este método sirve para dejarlo esperando hasta que le llegue un
-//						// "read.notify()" de la clase lobby.
 			} catch (IOException ex) {
 				System.out.println("Error al ir a buscar la información: " + ex.getMessage());
 				ex.printStackTrace();

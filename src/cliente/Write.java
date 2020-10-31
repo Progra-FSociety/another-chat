@@ -1,4 +1,5 @@
 package cliente;
+
 import java.io.ObjectOutputStream;
 import java.io.IOException;
 import java.net.Socket;
@@ -14,7 +15,7 @@ public class Write extends Thread {
 
 		try {
 			output = new ObjectOutputStream(socket.getOutputStream());
-			output.flush();	//Limpia el stream.
+			output.flush(); // Limpia el stream.
 			gsonHelper = new Gson();
 		} catch (IOException ex) {
 			System.out.println("Error getting input stream: " + ex.getMessage());
@@ -23,17 +24,19 @@ public class Write extends Thread {
 	}
 
 	public void run() {
-		while (true) {
-			try {
-				output.writeObject(gsonHelper.toJson(client.getRequest()));
-				wait(); // Lo hago esperar hasta que necesita enviar algún request nuevo.
-			} catch (IOException ex) {
-				System.out.println("Error al ir al enviar la información: " + ex.getMessage());
-				ex.printStackTrace();
-				break;
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				break;
+		synchronized (client) {
+			while (true) {
+				try {
+					client.wait(); // Lo hago esperar hasta que necesita enviar algún request nuevo.
+					output.writeObject(gsonHelper.toJson(client.getRequest()));
+				} catch (IOException ex) {
+					System.out.println("Error al ir al enviar la información: " + ex.getMessage());
+					ex.printStackTrace();
+					break;
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+					break;
+				}
 			}
 		}
 	}
