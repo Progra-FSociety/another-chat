@@ -46,7 +46,7 @@ public class ClientListener extends Thread {
 					Object obj = cls.getDeclaredConstructor(commandParameters)
 							.newInstance(Server.getConnections(), chats, Server.getRooms(), this, response.getMessage());
 					method = cls.getDeclaredMethod("execute");
-					method.invoke(obj, (Object) null);
+					((Command)obj).execute();
 				} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
 						| InvocationTargetException | InstantiationException e) {
 					e.printStackTrace();
