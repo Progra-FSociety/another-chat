@@ -40,10 +40,11 @@ public class ClientListener extends Thread {
 				String json = (String) input.readObject();
 				DataTransferObject response = gsonHelper.fromJson(json,
 						DataTransferObject.class);
-				Class<Command> cls = (Class<Command>) Class.forName(response.getCommand());
+				Class<Command> cls = (Class<Command>) Class.forName("servidor." + response.getCommand());
 				Method method;
 				try {
-					Object obj = cls.getDeclaredConstructor(commandParameters).newInstance(Server.getConnections(), chats, Server.getRooms(), this, response.getMessage());
+					Object obj = cls.getDeclaredConstructor(commandParameters)
+							.newInstance(Server.getConnections(), chats, Server.getRooms(), this, response.getMessage());
 					method = cls.getDeclaredMethod("execute");
 					method.invoke(obj, (Object) null);
 				} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException

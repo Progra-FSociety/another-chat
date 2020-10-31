@@ -9,8 +9,8 @@ import java.text.*;
 
 public class Server extends Thread {
 	ServerSocket socket;
-	static List<ClientListener> clients = new LinkedList<>();
-	static List<Chat> rooms;
+	static List<ClientListener> clients = new LinkedList<ClientListener>();
+	static List<Chat> rooms = new LinkedList<Chat>();
 
 	public Server() throws IOException {
 		this.socket = new ServerSocket(8000);
