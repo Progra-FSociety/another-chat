@@ -26,7 +26,7 @@ public class ClientListener extends Thread {
 		this.output = output;
 		this.ip = clientSocket.getInetAddress().getHostAddress();
 		this.socket = clientSocket;
-		this.commandParameters = new Class[] { List.class, List.class };
+		this.commandParameters = new Class[] { List.class, List.class, String.class };
 	}
 
 	@Override

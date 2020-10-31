@@ -22,6 +22,7 @@ public class Message {
 		this.bodyMsg = bodymsg;
 		this.chatName = chatName;
 	}
+
 	public Message(String nick, String bodymsg) {
 		this.nick = nick;
 		this.sendDate = dateFormat.format(new Date());
@@ -38,5 +39,13 @@ public class Message {
 	
 	public String getChat() {
 		return this.chatName;
+	}
+	
+	public String getNick() {
+		return nick;
+	}
+	
+	public String getBodyMsg() {
+		return bodyMsg;
 	}
 }

@@ -82,12 +82,14 @@ public class Client {
 	public void analyzeInput(String input) {
 		String[] words = input.split(" ");
 		String command = words[0];
+		String nameChat = words[1];
 
 		if (words[0].toUpperCase() == this.GUIDE_COMMAND) {
 			showGuide();
 		} else if (COMMANDS.contains(command.toUpperCase())) { // Preguntamos si está pidiendo usar un comando
 																// pre-definido.
-			Message msg = new Message(this.userName, input.substring(command.length() + 1).trim());
+			Message msg = new Message(this.userName, input.substring(command.length() + 1 + nameChat.length()).trim(),
+					nameChat);
 			this.request = new DataTransferDto(msg, command);
 			writer.notify();
 		}

@@ -11,15 +11,13 @@ import entities.Message;
 public class SendChat extends Command {
 
 	private List<Chat> chats;
-	private String userName;
 	private List<ClientListener> clients;
 	private ClientListener client;
 	private Message message;
-	public SendChat(List<ClientListener> clients, List<Chat> chats, String userName, ClientListener client,
+	public SendChat(List<ClientListener> clients, List<Chat> chats, ClientListener client,
 			Message message) {
 		this.chats = chats;
 		this.clients = clients;
-		this.userName = userName;
 		this.client = client;
 		this.message = message;
 	}
@@ -41,7 +39,7 @@ public class SendChat extends Command {
 		
 		//Envio el mensaje?
 		
-		Message msg = new Message(client.getName(),this.message.getMessage(),chat.getName());
+		Message msg = new Message(client.getName(),this.message.getBodyMsg(),chat.getName());
 		
 		//Esto parece que lo envia pero la verdad no tengo idea
 		

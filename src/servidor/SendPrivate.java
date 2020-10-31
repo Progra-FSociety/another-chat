@@ -34,7 +34,7 @@ public class SendPrivate extends Command {
 				.findFirst().orElse(null);
 
 		if(cliente != null){
-			msg = new Message(client.getName(), message.getMessage(), message.getChat() + " (tú)" );
+			msg = new Message(client.getName(), message.getBodyMsg(), clienteHacia);
 		} else{
 			// en el caso de no poder entregar el mensaje le notifico al wachin
 			msg = new Message(client.getName(), "No pudo se entregado tu mensaje a: " + clienteHacia, client.getName());
