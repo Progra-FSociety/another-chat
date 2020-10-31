@@ -12,36 +12,43 @@ public class Exit extends Command {
 	private final List<ClientListener> clients;
 	private final ClientListener client;
 	private final Message message;
+	private List<Chat> chats;
 
-	public Exit(List<ClientListener> clients,
-				List<Chat> chats,
-				List<Chat> roomsServer,
-				ClientListener client,
-				Message message) {
+	public Exit(List<ClientListener> clients, List<Chat> chats, List<Chat> roomsServer, ClientListener client,
+			Message message) {
 		this.clients = clients;
 		this.client = client;
 		this.message = message;
+		this.chats = chats;
 	}
 
 	public void execute() throws IOException {
 		String clientNick = message.getNick();
+		Message msg;
 
 		Chat chat = client.getChats().stream()
-				.filter(x -> x.getName().toUpperCase().equals(message.getChat().toUpperCase()))
-				.findFirst().orElse(null);
+				.filter(x -> x.getName().toUpperCase().equals(message.getChat().toUpperCase())).findFirst()
+				.orElse(null);
 
-		List<ClientListener> clnt = clients.stream()
-				.filter(x -> x.getChats().contains(chat))
-				.collect(Collectors.toList());
+		if (chat != null) {
 
-		Message msg = new Message(clientNick, "Ha salido del chat.", chat.getName());
-		DataTransferObject dto = new DataTransferObject(msg);
-		String json = gsonHelper.toJson(dto);
+			List<ClientListener> clnt = clients.stream().filter(x -> x.getChats().contains(chat))
+					.collect(Collectors.toList());
 
-		for (ClientListener item : clnt)
-			item.getOutput().writeObject(json);
+			msg = new Message(clientNick, "Ha salido del chat.", chat.getName());
+			DataTransferObject dto = new DataTransferObject(msg);
+			String json = gsonHelper.toJson(dto);
 
-		chat.getUsers().remove(clientNick);
-		client.getChats().remove(chat);
+			for (ClientListener item : clnt)
+				item.getOutput().writeObject(json);
+
+			chat.getUsers().remove(clientNick);
+			client.getChats().remove(chat);
+		} else {
+			msg = new Message(clientNick, "La sala de la que se quiere ir no existe.", this.message.getChat());
+			DataTransferObject dto = new DataTransferObject(msg);
+			String json = gsonHelper.toJson(dto);
+			client.getOutput().writeObject(json);
+		}
 	}
 }

@@ -57,5 +57,6 @@ public class SendPrivate extends Command {
 		DataTransferObject dto = new DataTransferObject(msg);
 		String json = gsonHelper.toJson(dto);
 		receiver.getOutput().writeObject(json);
+		client.getOutput().writeObject(json);
 	}
 }

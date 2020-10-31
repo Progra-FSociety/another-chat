@@ -36,7 +36,7 @@ public class Join extends Command {
 					"No se pudo agregar al chat, ya se encuentra en 3 salas de chat.", message.getChat());
 		} else {
 			Chat chat = this.roomsServer.stream()
-					.filter(room -> room.getName().equals(this.message.getChat()))
+					.filter(room -> room.getName().toUpperCase().equals(this.message.getChat().toUpperCase()))
 					.findFirst().orElse(null);
 			boolean isAlreadyInTheChat = client.getChats().contains(chat);
 

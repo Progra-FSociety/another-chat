@@ -67,15 +67,14 @@ public class Client extends Thread {
 	}
 
 	public void showGuide() {
-		System.out.println("Para salir de algun chat que elijas, escribe \"exit {nombre del chat}\"");
-		System.out.println("Para crear un chat en cualquier momento, escribe \"create {nombre del chat}\"");
-		System.out.println("Para unirte a un chat en cualquier momento, escribe \"join {nombre del chat}\"");
-		System.out.println("Cuando escribas en un chat, hacelo de esta manera: \"sendchat {nombre chat} {mensaje}\"");
-		System.out.println(
-				"Para escribirle a alguien por privado, hacelo de esta manera: \"sendprivate {nombre usuario} {mensaje}\"");
-		System.out.println("Para volver a ver los chats del lobby, escribe \"getallchats\"");
-		System.out.println("Para salir del lobby, escribe \"exitall\"");
-		System.out.println("Para volver a ver la ayuda, escribe \"get-guide\"");
+		System.out.println("Para ver los chats en linea: GETALLCHATS");
+		System.out.println("Para crear un chat: CREATE NOMBRECHAT");
+		System.out.println("Para unirte a un chat: JOIN NOMBRECHAT");
+		System.out.println("Para enviar mensaje a un chat: SENDCHAT NOMBRECHAT MENSAJE");
+		System.out.println("Para enviar mensaje privado: SENDPRIVATE NOMBREUSUARIO MENSAJE");
+		System.out.println("Para ver nuevamente la guia: GET-GUIDE");
+		System.out.println("Para salir de chat: EXIT NOMBRECHAT");
+		System.out.println("Para desconectarte: EXITALL");
 	}
 
 	public void analyzeInput(String input) {
@@ -134,8 +133,8 @@ public class Client extends Thread {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		String text = EMPTY_STRING;
 		System.out.println("Hola! Bienvienido al lobby de FSociety");
-		System.out.println("Como queres que te llamemos?");
-		System.out.print("Nombre de usuario: ");
+		System.out.println("¡ACLARACION!: En este lobby los nombres de usuario y chats son de UNA PALABRA.");
+		System.out.print("Elija su nombre de usuario: ");
 		client.setUserName(reader.readLine());
 		client.startLobby();
        

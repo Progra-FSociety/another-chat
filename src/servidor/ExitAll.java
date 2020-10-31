@@ -48,6 +48,6 @@ public class ExitAll extends Command {
 		}
 
 		// Hay que matar el hilo del usuario???????????
-//		client.stop();
+		client.stop();
 	}
 }
