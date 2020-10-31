@@ -27,7 +27,7 @@ public class Write extends Thread {
 		synchronized (client) {
 			while (true) {
 				try {
-					client.wait(); // Lo hago esperar hasta que necesita enviar alg�n request nuevo.
+					client.wait(); // Lo hago esperar hasta que necesita enviar algun request nuevo.
 					output.writeObject(gsonHelper.toJson(client.getRequest()));
 				} catch (IOException ex) {
 					System.out.println("Error al ir al enviar la informacion: " + ex.getMessage());

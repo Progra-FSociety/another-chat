@@ -2,9 +2,8 @@ package servidor;
 import java.util.*;
 
 public class Chat {
-
-	List<String> users;
-	String chatName;
+	private List<String> users;
+	private String chatName;
 	
 	public Chat(String chatName) {
 		this.chatName = chatName;
@@ -18,7 +17,7 @@ public class Chat {
 	public String getName() {
 		return this.chatName;
 	}
-	
+
 	public List<String> getUsers() {
 		return this.users;
 	}

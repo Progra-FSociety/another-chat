@@ -28,29 +28,36 @@ public class Join extends Command {
 	}
 
 	public void execute() throws IOException {
+		String clientNick = message.getNick();
 		Message msg = null;
-		if (this.chats.size() > 3) {
-			msg = new Message(client.getName(),
+
+		if (this.chats.size() >= 3) {
+			msg = new Message(clientNick,
 					"No se pudo agregar al chat, ya se encuentra en 3 salas de chat.", message.getChat());
 		} else {
 			Chat chat = this.roomsServer.stream()
-					.filter(room -> room.chatName.equals(this.message.getChat()))
+					.filter(room -> room.getName().equals(this.message.getChat()))
 					.findFirst().orElse(null);
+			boolean isAlreadyInTheChat = client.getChats().contains(chat);
+
 			if (chat == null) {
-				msg = new Message(client.getName(),
-						"No se pudo agregar al chat, ya se encuentra en 3 salas de chat.", message.getChat());
+				msg = new Message(clientNick,
+						"No existe el chat.", message.getChat());
+			} else if(isAlreadyInTheChat){
+				msg = new Message(clientNick,
+						"Ya estas en el chat.", message.getChat());
 			} else{
-				chat.users.add(this.message.getNick());
+				chat.getUsers().add(this.message.getNick());
 				this.chats.add(chat);
 				List<ClientListener> clientsListeners = clients.stream().filter(cls -> cls.getChats().contains(chat))
 						.collect(Collectors.toList());
 
-				// TODO ver si realmente se quiere hacer esto
 				for (ClientListener clients : clientsListeners) {
-					msg = new Message(client.getName(),"Se ha unido al chat ", chat.getName());
+					msg = new Message(clientNick,"Se ha unido al chat ", chat.getName());
 				}
 			}
 		}
+
 		DataTransferObject dto = new DataTransferObject(msg);
 		String json = gsonHelper.toJson(dto);
 		client.getOutput().writeObject(json);

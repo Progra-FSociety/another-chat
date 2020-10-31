@@ -16,9 +16,6 @@ import entities.Message;
 
 public class Client extends Thread {
 
-	public static final String ANSI_RESET = "\u001B[0m";
-	public static final String ANSI_YELLOW = "\u001B[33m";
-
 	private String userName;
 	private final String GUIDE_COMMAND = "GET-GUIDE";
 	private List<String> chats; // La lista de los chats a los q est� unido.
@@ -123,6 +120,7 @@ public class Client extends Thread {
 		writer.start();
 		this.reader = new Read(this.connection, this);
 		reader.start();
+		this.sendUserName();
 	}
 
 	public String getExitAllCommand() {
@@ -136,8 +134,8 @@ public class Client extends Thread {
 		BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
 		String text = EMPTY_STRING;
 		System.out.println("Hola! Bienvienido al lobby de FSociety");
-		System.out.println("Como queres que te llamarte?");
-		System.out.println("Nombre de usuario: _");
+		System.out.println("Como queres que te llamemos?");
+		System.out.print("Nombre de usuario: ");
 		client.setUserName(reader.readLine());
 		client.startLobby();
        
@@ -145,6 +143,14 @@ public class Client extends Thread {
 			text = reader.readLine();
 			client.analyzeInput(text);
 		} while (true);
+	}
+
+	private void sendUserName () {
+		Message msg = new Message(this.userName, null,null);
+		this.request = new DataTransferObject(msg, "SetUserName");
+		synchronized(this) {
+			this.notify();
+		}
 	}
 
 }

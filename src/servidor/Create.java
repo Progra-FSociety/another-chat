@@ -25,9 +25,9 @@ public class Create extends Command {
 		Message msg;
 		String clientNick = message.getNick();
 		if (client.getChats().size() < 3
-				&& this.roomsServer.stream().noneMatch(x -> x.chatName.equals(this.message.getChat()))) {
+				&& this.roomsServer.stream().noneMatch(x -> x.getName().equals(this.message.getChat()))) {
 			Chat chat = new Chat(this.message.getChat());
-			chat.users.add(clientNick);
+			chat.getUsers().add(clientNick);
 			this.roomsServer.add(chat);
 			this.client.getChats().add(chat);
 			msg = new Message(clientNick, "La sala se creo con exito.", chat.getName());

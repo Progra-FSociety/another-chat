@@ -21,6 +21,7 @@ public class ClientListener extends Thread {
 	private final ObjectInputStream input;
 	private List<Chat> chats;
 	private final ObjectOutputStream output;
+	private String nickname;
 
 	private final Class[] commandParameters;
 
@@ -70,5 +71,13 @@ public class ClientListener extends Thread {
 
 	public ObjectOutputStream getOutput() {
 		return this.output;
+	}
+
+	public String getNickname() {
+		return nickname;
+	}
+
+	public void setNickname(String nickname) {
+		this.nickname = nickname;
 	}
 }

@@ -24,19 +24,24 @@ public class Exit extends Command {
 	}
 
 	public void execute() throws IOException {
+		String clientNick = message.getNick();
+
 		Chat chat = client.getChats().stream()
-				.filter(x -> x.chatName.equals(message.getChat()))
+				.filter(x -> x.getName().toUpperCase().equals(message.getChat().toUpperCase()))
 				.findFirst().orElse(null);
 
-		List<ClientListener> clnt = clients.stream().filter(x -> x.getChats().contains(chat))
+		List<ClientListener> clnt = clients.stream()
+				.filter(x -> x.getChats().contains(chat))
 				.collect(Collectors.toList());
 
-		Message msg = new Message(client.getName(), "Ha salido del chat.", chat.getName());
+		Message msg = new Message(clientNick, "Ha salido del chat.", chat.getName());
 		DataTransferObject dto = new DataTransferObject(msg);
 		String json = gsonHelper.toJson(dto);
+
 		for (ClientListener item : clnt)
 			item.getOutput().writeObject(json);
 
+		chat.getUsers().remove(clientNick);
 		client.getChats().remove(chat);
 	}
 }

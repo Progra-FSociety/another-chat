@@ -43,7 +43,7 @@ public class ExitAll extends Command {
 		}
 
 		for (Chat chat : this.chats) {
-			chat.users.remove(clientNick);
+			chat.getUsers().remove(clientNick);
 			this.chats.remove(chat);
 		}
 

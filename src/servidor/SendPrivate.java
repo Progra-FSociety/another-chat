@@ -23,13 +23,31 @@ public class SendPrivate extends Command {
 	}
 
 	public void execute() throws IOException {
-		String toClient = message.getChat();
 		Message msg;
+		ClientListener receiver;
+
+		/**
+		 * It's the client which will receive the message.
+		 */
+		String toClient = message.getChat();
 		String clientNick = message.getNick();
-		ClientListener receiver = clients.stream().filter(x -> x.getName().equals(toClient)).findFirst().orElse(null);
+
+		receiver = clients.stream()
+				.filter(x -> x.getNickname().equals(toClient))
+				.findFirst().orElse(null);
 
 		if (receiver != null) {
-			msg = new Message(clientNick, message.getBodyMsg(), toClient);
+			boolean hasScope = receiver.getChats().stream()
+					.anyMatch(chat -> chat.getUsers().contains(clientNick));
+
+			if (hasScope){
+				msg = new Message(clientNick, message.getBodyMsg(), toClient);
+			} else {
+				msg = new Message(clientNick,
+						"No pudo ser entregado tu mensaje porque no compartis un chat con el usuario: " + receiver.getNickname(),
+						clientNick);
+				receiver = client;
+			}
 		} else {
 			msg = new Message(clientNick,
 					"No pudo ser entregado tu mensaje porque el usuario no existe.",
