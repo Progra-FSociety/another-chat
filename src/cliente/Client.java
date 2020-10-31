@@ -15,6 +15,10 @@ import entities.DataTransferObject;
 import entities.Message;
 
 public class Client extends Thread {
+
+	public static final String ANSI_RESET = "\u001B[0m";
+	public static final String ANSI_YELLOW = "\u001B[33m";
+
 	private String userName;
 	private final String GUIDE_COMMAND = "GET-GUIDE";
 	private List<String> chats; // La lista de los chats a los q est� unido.
@@ -66,15 +70,19 @@ public class Client extends Thread {
 	}
 
 	public void showGuide() {
-		System.out.println("Para salir de algun chat que elijas, escribe \"exit {nombre del chat}\"");
-		System.out.println("Para crear un chat en cualquier momento, escribe \"create {nombre del chat}\"");
-		System.out.println("Para unirte a un chat en cualquier momento, escribe \"join {nombre del chat}\"");
-		System.out.println("Cuando escribas en un chat, hacelo de esta manera: \"sendchat {nombre chat} {mensaje}.\"");
+		System.out.println("Para salir de algun chat que elijas, escribe "+ colorizedOutput("exit {nombre del chat}"));
+		System.out.println("Para crear un chat en cualquier momento, escribe "+ colorizedOutput("create {nombre del chat}"));
+		System.out.println("Para unirte a un chat en cualquier momento, escribe "+ colorizedOutput("join {nombre del chat}"));
+		System.out.println("Cuando escribas en un chat, hacelo de esta manera: "+ colorizedOutput("sendchat {nombre chat} {mensaje}"));
 		System.out.println(
-				"Para escribirle a alguien por privado, hacelo de esta manera: \"sendprivate {nombre usuario} {mensaje}.\"");
-		System.out.println("Para volver a ver los chats del lobby, escribe \"getallchats\"");
-		System.out.println("Para salir del lobby, escribe \"exitall\"");
-		System.out.println("Para volver a ver la ayuda, escribe \"get-guide\"");
+				"Para escribirle a alguien por privado, hacelo de esta manera: "+ colorizedOutput("sendprivate {nombre usuario} {mensaje}"));
+		System.out.println("Para volver a ver los chats del lobby, escribe "+ colorizedOutput("getallchats"));
+		System.out.println("Para salir del lobby, escribe "+ colorizedOutput("exitall"));
+		System.out.println("Para volver a ver la ayuda, escribe "+ colorizedOutput("get-guide"));
+	}
+
+	private String colorizedOutput (String txt){
+		return ANSI_YELLOW + txt + ANSI_RESET;
 	}
 
 	public void analyzeInput(String input) {
