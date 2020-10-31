@@ -9,6 +9,7 @@ import java.lang.reflect.Method;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.google.gson.*;
@@ -31,6 +32,7 @@ public class ClientListener extends Thread {
 		this.socket = clientSocket;
 		this.commandParameters = new Class[] { List.class, List.class, List.class, ClientListener.class,
 				Message.class };
+		this.chats = new LinkedList<>();
 	}
 
 	@Override

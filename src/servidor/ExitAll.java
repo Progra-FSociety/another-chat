@@ -14,8 +14,11 @@ public class ExitAll extends Command {
 	private final ClientListener client;
 	private final Message message;
 
-	public ExitAll(List<ClientListener> clients, List<Chat> chats, List<Chat> roomsServer, ClientListener client,
-			Message message) {
+	public ExitAll(List<ClientListener> clients,
+				   List<Chat> chats,
+				   List<Chat> roomsServer,
+				   ClientListener client,
+				   Message message) {
 		this.chats = client.getChats();
 		this.clients = clients;
 		this.client = client;

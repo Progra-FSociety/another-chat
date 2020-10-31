@@ -12,8 +12,11 @@ public class SendPrivate extends Command {
 	private final ClientListener client;
 	private final Message message;
 
-	public SendPrivate(List<ClientListener> clients, List<Chat> chats, List<Chat> roomsServer, ClientListener client,
-			Message message) {
+	public SendPrivate(List<ClientListener> clients,
+					   List<Chat> chats,
+					   List<Chat> roomsServer,
+					   ClientListener client,
+					   Message message) {
 		this.clients = clients;
 		this.client = client;
 		this.message = message;

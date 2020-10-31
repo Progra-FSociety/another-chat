@@ -15,8 +15,11 @@ public class Join extends Command {
 	private final ClientListener client;
 	private final List<ClientListener> clients;
 
-	public Join(List<ClientListener> clients, List<Chat> chats, List<Chat> roomsServer, ClientListener client,
-			Message message) {
+	public Join(List<ClientListener> clients,
+				List<Chat> chats,
+				List<Chat> roomsServer,
+				ClientListener client,
+				Message message) {
 		this.chats = chats;
 		this.roomsServer = roomsServer;
 		this.message = message;

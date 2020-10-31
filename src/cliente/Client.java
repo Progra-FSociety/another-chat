@@ -84,12 +84,11 @@ public class Client extends Thread {
 	public void analyzeInput(String input) {
 		String[] words = input.split(" ");
 		String command = words[0];
-		String nameChat = words[1];
+		String nameChat = words.length > 1 ? words[1] : "";
 		boolean findIt = false;
 
 		if (words[0].toUpperCase().equals(this.GUIDE_COMMAND)) {
 			showGuide();
-
 		} else {
 			for (String item : Client.COMMANDS) {
 				if (item.toUpperCase().equals(command.toUpperCase())) {

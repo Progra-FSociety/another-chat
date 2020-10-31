@@ -11,8 +11,11 @@ public class Create extends Command {
 	private final ClientListener client;
 	private final Message message;
 
-	public Create(List<ClientListener> clients, List<Chat> chats, List<Chat> roomsServer, ClientListener client,
-			Message message) {
+	public Create(List<ClientListener> clients,
+				  List<Chat> chats,
+				  List<Chat> roomsServer,
+				  ClientListener client,
+				  Message message) {
 		this.client = client;
 		this.message = message;
 		this.roomsServer = roomsServer;
@@ -20,15 +23,16 @@ public class Create extends Command {
 
 	public void execute() throws IOException {
 		Message msg;
+		String clientNick = message.getNick();
 		if (client.getChats().size() < 3
 				&& this.roomsServer.stream().noneMatch(x -> x.chatName.equals(this.message.getChat()))) {
 			Chat chat = new Chat(this.message.getChat());
-			chat.users.add(client.getName());
+			chat.users.add(clientNick);
 			this.roomsServer.add(chat);
 			this.client.getChats().add(chat);
-			msg = new Message(client.getName(), "La sala se creo con exito.", chat.getName());
+			msg = new Message(clientNick, "La sala se creo con exito.", chat.getName());
 		} else {
-			msg = new Message(client.getName(), "No se pudo crear la sala correctamente.", message.getChat());
+			msg = new Message(clientNick, "No se pudo crear la sala correctamente.", message.getChat());
 		}
 		DataTransferObject dto = new DataTransferObject(msg);
 		String json = gsonHelper.toJson(dto);

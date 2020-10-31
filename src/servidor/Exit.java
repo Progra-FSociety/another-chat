@@ -13,8 +13,11 @@ public class Exit extends Command {
 	private final ClientListener client;
 	private final Message message;
 
-	public Exit(List<ClientListener> clients, List<Chat> chats, List<Chat> roomsServer, ClientListener client,
-			Message message) {
+	public Exit(List<ClientListener> clients,
+				List<Chat> chats,
+				List<Chat> roomsServer,
+				ClientListener client,
+				Message message) {
 		this.clients = clients;
 		this.client = client;
 		this.message = message;

@@ -12,8 +12,11 @@ public class GetAllChats extends Command {
 	static List<ClientListener> clients;
 	private final ClientListener client;
 
-	public GetAllChats(List<ClientListener> clients, List<Chat> chats, List<Chat> roomsServer, ClientListener client,
-			Message message) {
+	public GetAllChats(List<ClientListener> clients,
+					   List<Chat> chats,
+					   List<Chat> roomsServer,
+					   ClientListener client,
+					   Message message) {
 		this.roomsServer = roomsServer;
 		this.client = client;
 	}
