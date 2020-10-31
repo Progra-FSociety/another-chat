@@ -26,20 +26,24 @@ public class ExitAll extends Command {
 	}
 
 	public void execute() throws IOException {
+		String clientNick = message.getNick();
 
 		for (Chat chat : this.chats) {
-			Message msg = new Message(client.getName(),
+			Message msg = new Message(clientNick,
 					"Se ha desconectado.", chat.getName());
 			DataTransferObject dto = new DataTransferObject(msg);
 			String json = gsonHelper.toJson(dto);
-			List<ClientListener> clnt = clients.stream().filter(x -> x.getChats().contains(chat))
+
+			List<ClientListener> clnt = clients.stream()
+					.filter(x -> x.getChats().contains(chat))
 					.collect(Collectors.toList());
+
 			for (ClientListener item : clnt)
 				item.getOutput().writeObject(json);
 		}
 
 		for (Chat chat : this.chats) {
-			chat.users.remove(this.message.getNick());
+			chat.users.remove(clientNick);
 			this.chats.remove(chat);
 		}
 

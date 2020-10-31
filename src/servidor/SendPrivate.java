@@ -25,14 +25,15 @@ public class SendPrivate extends Command {
 	public void execute() throws IOException {
 		String toClient = message.getChat();
 		Message msg;
+		String clientNick = message.getNick();
 		ClientListener receiver = clients.stream().filter(x -> x.getName().equals(toClient)).findFirst().orElse(null);
 
 		if (receiver != null) {
-			msg = new Message(client.getName(), message.getBodyMsg(), toClient);
+			msg = new Message(clientNick, message.getBodyMsg(), toClient);
 		} else {
-			msg = new Message(client.getName(),
+			msg = new Message(clientNick,
 					"No pudo ser entregado tu mensaje porque el usuario no existe.",
-					client.getName());
+					clientNick);
 			receiver = client;
 		}
 		DataTransferObject dto = new DataTransferObject(msg);

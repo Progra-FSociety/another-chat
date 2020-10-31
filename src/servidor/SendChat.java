@@ -27,9 +27,10 @@ public class SendChat extends Command {
 
 		// Busco el chat al cual quiero mandar el msj
 		Message msg;
+		String clientNick = message.getNick();
 
 		Chat chat = client.getChats().stream()
-				.filter(x -> x.chatName.equals(message.getChat()))
+				.filter(x -> x.chatName.toUpperCase().equals(message.getChat().toUpperCase()))
 				.findFirst().orElse(null);
 
 		// Busco los clientes adheridos a ese chat
@@ -39,15 +40,15 @@ public class SendChat extends Command {
 
 
 		if (chat != null) {
-			msg = new Message(client.getName(), this.message.getBodyMsg(), chat.getName());
+			msg = new Message(clientNick, this.message.getBodyMsg(), chat.getName());
 			DataTransferObject dto = new DataTransferObject(msg);
 			String json = gsonHelper.toJson(dto);
 			for (ClientListener item : clnt)
 				item.getOutput().writeObject(json);
 		} else {
-			msg = new Message(client.getName(),
+			msg = new Message(clientNick,
 					"No pudo ser entregado tu mensaje porque el chat no existe.",
-					client.getName());
+					clientNick);
 			DataTransferObject dto = new DataTransferObject(msg);
 			String json = gsonHelper.toJson(dto);
 			client.getOutput().writeObject(json);

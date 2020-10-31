@@ -98,11 +98,11 @@ public class Client extends Thread {
 				}
 			}
 			if (findIt) {
-				Message msg = new Message(this.userName,
-						input.substring(command.length() + 1 + nameChat.length()).trim(), nameChat);
+				int subString = nameChat.length() > 0 ? command.length() + 1 + nameChat.length() : command.length();
+				Message msg = new Message(this.userName, input.substring(subString).trim(), nameChat);
 				this.request = new DataTransferObject(msg, command);
 				synchronized(this) {
-					   this.notify();
+					this.notify();
 				}
 			} else {
 				System.out.println("Ups. No es un comando valido.");
