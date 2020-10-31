@@ -1,6 +1,6 @@
 package servidor;
 
-import cliente.DataTransferDto;
+import entities.DataTransferDto;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -18,6 +18,7 @@ public class ClientListener extends Thread {
 	private ObjectInputStream input;
 	private List<Chat> chats;
 	private ObjectOutputStream output;
+
 	private Class[] commandParameters;
 
 	public ClientListener(Socket clientSocket, ObjectInputStream input, ObjectOutputStream output) {
@@ -27,24 +28,25 @@ public class ClientListener extends Thread {
 		this.socket = clientSocket;
 		this.commandParameters = new Class[] { List.class, List.class };
 	}
+
 	@Override
 	public void run() {
 		while (true) {
 			try {
 				DataTransferDto response = gsonHelper.fromJson((String) input.readObject(), DataTransferDto.class);
 				Class<Command> cls = (Class<Command>) Class.forName(response.getCommand()); // el getcommand es un
-																							// "Exit" Exit.java Exit()
-																							// Creo un objeto a partir
-																							// del string que me llega.				
+																				// "Exit" Exit.java Exit()
+																				// Creo un objeto a partir
+																				// del string que me llega.
 				Method method;
 				try {
-					Object obj = cls.getDeclaredConstructor(commandParameters).newInstance(new Object[]{Server.getConnections(), chats}); // Creo una instancia del objeto que obtuve en
-					// la línea de arrib
+					Object obj = cls.getDeclaredConstructor(commandParameters)
+							.newInstance(new Object[] { Server.getConnections(), chats, response.getMessage() });
 					method = cls.getDeclaredMethod("execute", new Class[] {}); // Busco un método de la clase creada
-																					// (lo tengo que buscar así porque
-																					// en tiempo de ejecución el
-																					// programa no sabe qué metodos
-																					// tiene).
+																				// (lo tengo que buscar así porque
+																				// en tiempo de ejecución el
+																				// programa no sabe qué metodos
+																				// tiene).
 					method.invoke(obj, null); // Invoco el método, en este caso el execute.
 				} catch (NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException
 						| InvocationTargetException | InstantiationException e) {
@@ -63,5 +65,13 @@ public class ClientListener extends Thread {
 				e.printStackTrace();
 			}
 		}
+	}
+
+	public List<Chat> getChats() {
+		return this.chats;
+	}
+
+	public ObjectOutputStream getOutput() {
+		return this.output;
 	}
 }

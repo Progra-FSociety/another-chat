@@ -9,12 +9,12 @@ public class Write extends Thread {
 	private Client client;
 	private ObjectOutputStream output;
 
-	public Write(Socket socket, Client lobby) {
-		this.client = lobby;
+	public Write(Socket socket, Client client) {
+		this.client = client;
 
 		try {
 			output = new ObjectOutputStream(socket.getOutputStream());
-			output.flush();	
+			output.flush();	//Limpia el stream.
 			gsonHelper = new Gson();
 		} catch (IOException ex) {
 			System.out.println("Error getting input stream: " + ex.getMessage());

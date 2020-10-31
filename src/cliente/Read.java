@@ -1,15 +1,17 @@
 package cliente;
+
 import java.io.ObjectInputStream;
 import java.io.IOException;
 import java.net.Socket;
 import com.google.gson.*;
+
+import entities.DataTransferDto;
 
 public class Read extends Thread {
 	private Gson data;
 	private Socket socket;
 	private Client lobby;
 	private ObjectInputStream input;
-	
 
 	public Read(Socket socket, Client lobby) {
 		this.socket = socket;
@@ -29,14 +31,9 @@ public class Read extends Thread {
 			try {
 				String text = (String) input.readObject();
 				DataTransferDto response = data.fromJson(text, DataTransferDto.class);
-
-				if (response.isError())
-					System.out.print("Ups. Ocurrió un error: " + response.getMessage());
-				else {
-					System.out.print(response.getMessage());
-				}
-				wait(); // Este método sirve para dejarlo esperando hasta que le llegue un
-						// "read.notify()" de la clase lobby.
+				System.out.print(response.getFormatedMessage());
+//				wait(); // Este método sirve para dejarlo esperando hasta que le llegue un
+//						// "read.notify()" de la clase lobby.
 			} catch (IOException ex) {
 				System.out.println("Error al ir a buscar la información: " + ex.getMessage());
 				ex.printStackTrace();
@@ -44,10 +41,11 @@ public class Read extends Thread {
 			} catch (ClassNotFoundException e) {
 				e.printStackTrace();
 				break;
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-				break;
 			}
+//			catch (InterruptedException e) {
+//				e.printStackTrace();
+//				break;
+//			}
 		}
 	}
 }

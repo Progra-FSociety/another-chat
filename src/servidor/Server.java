@@ -15,12 +15,9 @@ public class Server extends Thread {
 
 	public Server() throws IOException {
 		this.socket = new ServerSocket(8000);
-
-		SimpleDateFormat dateformat2 = new SimpleDateFormat();
-		System.out.println("Se inicio el servidor a las " + dateformat2.format(new Date()));
-		System.out.println();
-
-
+		SimpleDateFormat dateformat = new SimpleDateFormat();
+		
+		System.out.println("Se inicio el servidor a las " + dateformat.format(new Date()));		
 	}
 
 	public static List<ClientListener> getConnections() {
@@ -33,15 +30,9 @@ public class Server extends Thread {
 			while (true) {
 				Socket clientSocket = this.socket.accept(); // Se queda esperando para aceptar conexiones de clientes.
 				ObjectOutputStream output = new ObjectOutputStream(clientSocket.getOutputStream()); // Abrimos stream de
-				output.flush();	
-				ObjectInputStream input = new ObjectInputStream(clientSocket.getInputStream()); // Abrimos stream de
-																							// recepción de mensajes
-																								// (lectura desde
-																								// cliente a server)
-																						// envío de mensajes
-																									// (escritura hacia
-																									// clientes)
-				// Levantamos un hilo de ejecución por cada cliente.
+				output.flush();
+				ObjectInputStream input = new ObjectInputStream(clientSocket.getInputStream());
+				
 				ClientListener attention = new ClientListener(clientSocket, input, output);
 				clients.add(attention);
 				attention.start();
@@ -50,9 +41,9 @@ public class Server extends Thread {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public static void main(String[] args) throws IOException {
 		Server server = new Server();
 		server.start();
-		}
+	}
 }
