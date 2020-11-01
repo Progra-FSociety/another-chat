@@ -27,7 +27,7 @@ public class Client extends Thread {
 	private final SimpleDateFormat dateFormat = new SimpleDateFormat();
 
 	private final static LinkedList<String> COMMANDS = new LinkedList<>(
-			List.of("Create", "Exit", "Join", "SendPrivate", "SendChat", "ExitAll", "GetAllChats"));
+			List.of("Create", "Exit", "Join", "SendPrivate", "SendChat", "ExitAll", "GetAllChats", "PrintChat"));
 	/*
 	 * inicia el servidor - levanta el lobby salas de chats - <- se une cliente
 	 * 
@@ -75,6 +75,7 @@ public class Client extends Thread {
 		System.out.println("Para ver nuevamente la guia: GET-GUIDE");
 		System.out.println("Para salir de chat: EXIT NOMBRECHAT");
 		System.out.println("Para desconectarte: EXITALL");
+		System.out.println("Para imprimir el chat: PRINTCHAT NOMBRECHAT");
 	}
 
 	public void analyzeInput(String input) {
@@ -141,6 +142,7 @@ public class Client extends Thread {
 		do {			
 			text = reader.readLine();
 			client.analyzeInput(text);
+			reader = new BufferedReader(new InputStreamReader(System.in));
 		} while (true);
 	}
 

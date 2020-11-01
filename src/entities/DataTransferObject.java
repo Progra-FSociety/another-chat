@@ -1,18 +1,25 @@
 package entities;
 
+import java.io.File;
 import java.io.Serializable;
 
 public class DataTransferObject implements Serializable, Cloneable {
 	private static final long serialVersionUID = 1L; // Esto lo pide el eclipse por implementar serializable.
 	private Message message;
 	private String command;
-	
+	private byte[] chatHistory = null;
+
 	public DataTransferObject() {
-		
+
 	}
-	
+
 	public DataTransferObject(String command) {
 		this.command = command;
+	}
+
+	public DataTransferObject(Message msg, byte[] history) {
+		this.message = msg;
+		this.chatHistory = history;
 	}
 
 	/**
@@ -42,6 +49,18 @@ public class DataTransferObject implements Serializable, Cloneable {
 		this.message = message;
 	}
 
+	public void setFile(byte[] file) {
+		this.chatHistory = file;
+	}
+
+	public byte[] getFile() {
+		return this.chatHistory;
+	}
+
+	public boolean hasFile() {
+		return this.chatHistory != null;
+	}
+
 	public String getCommand() {
 		return command;
 	}
@@ -49,7 +68,7 @@ public class DataTransferObject implements Serializable, Cloneable {
 	public void setCommand(String command) {
 		this.command = command;
 	}
-	
+
 	public Object clone() {
 		Object obj = null;
 		try {

@@ -43,6 +43,9 @@ public class SendChat extends Command {
 			msg = new Message(clientNick, this.message.getBodyMsg(), chat.getName());
 			DataTransferObject dto = new DataTransferObject(msg);
 			String json = gsonHelper.toJson(dto);
+			
+			chat.addToHistory(msg.getMessage().trim() + "\n");
+
 			for (ClientListener item : clnt)
 				item.getOutput().writeObject(json);
 		} else {

@@ -31,6 +31,7 @@ public class Create extends Command {
 			this.roomsServer.add(chat);
 			this.client.getChats().add(chat);
 			msg = new Message(clientNick, "La sala se creo con exito.", chat.getName());
+			//chat.addComments(msg.getMessage());
 		} else {
 			msg = new Message(clientNick, "No se pudo crear la sala correctamente.", message.getChat());
 		}

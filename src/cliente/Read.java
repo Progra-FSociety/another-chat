@@ -1,8 +1,13 @@
 package cliente;
 
 import java.io.ObjectInputStream;
+import java.io.OutputStream;
+
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+
 import com.google.gson.*;
 
 import entities.DataTransferObject;
@@ -31,6 +36,13 @@ public class Read extends Thread {
 			try {
 				String text = (String) input.readObject();
 				DataTransferObject response = data.fromJson(text, DataTransferObject.class);
+				
+				if(response.hasFile()) {
+					OutputStream os = new FileOutputStream(new File(response.getMessage().getChat()));
+					os.write(response.getFile());
+					os.close();
+				}
+					
 				System.out.println(response.getFormatedMessage());
 			} catch (IOException ex) {
 				System.out.println("Error al ir a buscar la informacion: " + ex.getMessage());
@@ -40,10 +52,7 @@ public class Read extends Thread {
 				e.printStackTrace();
 				break;
 			}
-//			catch (InterruptedException e) {
-//				e.printStackTrace();
-//				break;
-//			}
+
 		}
 	}
 }
