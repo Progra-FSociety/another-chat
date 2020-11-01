@@ -1,7 +1,6 @@
 package servidor;
 
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -52,7 +51,7 @@ public class Join extends Command {
 				List<ClientListener> clientsListeners = clients.stream().filter(cls -> cls.getChats().contains(chat))
 						.collect(Collectors.toList());
 
-				for (ClientListener clients : clientsListeners) {
+				for (ClientListener client : clientsListeners) {
 					msg = new Message(clientNick,"Se ha unido al chat ", chat.getName());
 				}
 			}

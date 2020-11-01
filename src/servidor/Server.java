@@ -18,10 +18,10 @@ public class Server extends Thread {
 		
 		System.out.println("Se inicio el servidor a las " + dateformat.format(new Date()));		
 		
-		this.rooms.add(new Chat("Fsociety1"));
-		this.rooms.add(new Chat("Fsociety2"));
-		this.rooms.add(new Chat("Fsociety3"));
-		this.rooms.add(new Chat("Fsociety4"));
+		Server.rooms.add(new Chat("Fsociety1"));
+		Server.rooms.add(new Chat("Fsociety2"));
+		Server.rooms.add(new Chat("Fsociety3"));
+		Server.rooms.add(new Chat("Fsociety4"));
 	}
 
 	public static List<ClientListener> getConnections() {

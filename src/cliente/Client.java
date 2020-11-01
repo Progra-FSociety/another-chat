@@ -9,7 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Scanner;
 
 import entities.DataTransferObject;
 import entities.Message;
@@ -18,7 +17,7 @@ public class Client extends Thread {
 
 	private String userName;
 	private final String GUIDE_COMMAND = "GET-GUIDE";
-	private List<String> chats; // La lista de los chats a los q est� unido.
+	private List<String> chats;
 	private Socket connection;
 	DataInputStream input;
 	private DataTransferObject request;
@@ -28,10 +27,6 @@ public class Client extends Thread {
 
 	private final static LinkedList<String> COMMANDS = new LinkedList<>(
 			List.of("Create", "Exit", "Join", "SendPrivate", "SendChat", "ExitAll", "GetAllChats", "PrintChat"));
-	/*
-	 * inicia el servidor - levanta el lobby salas de chats - <- se une cliente
-	 * 
-	 */
 
 	public Client(String ip, int port) {
 		try {
@@ -62,11 +57,12 @@ public class Client extends Thread {
 	}
 
 	public void startLobby() {
-		showGuide(); // Muestro la gu�a.
+		showGuide();
 		this.startConnection();
 	}
 
 	public void showGuide() {
+		System.out.println("");
 		System.out.println("Para ver los chats en linea: GETALLCHATS");
 		System.out.println("Para crear un chat: CREATE NOMBRECHAT");
 		System.out.println("Para unirte a un chat: JOIN NOMBRECHAT");
@@ -76,6 +72,7 @@ public class Client extends Thread {
 		System.out.println("Para salir de chat: EXIT NOMBRECHAT");
 		System.out.println("Para desconectarte: EXITALL");
 		System.out.println("Para imprimir el chat: PRINTCHAT NOMBRECHAT");
+		System.out.println("");
 	}
 
 	public void analyzeInput(String input) {

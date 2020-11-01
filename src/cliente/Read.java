@@ -14,14 +14,9 @@ import entities.DataTransferObject;
 
 public class Read extends Thread {
 	private Gson data;
-	private final Socket socket;
-	private final Client lobby;
 	private ObjectInputStream input;
 
 	public Read(Socket socket, Client lobby) {
-		this.socket = socket;
-		this.lobby = lobby;
-
 		try {
 			input = new ObjectInputStream(socket.getInputStream());
 			data = new Gson();

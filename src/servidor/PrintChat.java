@@ -5,17 +5,14 @@ import entities.Message;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class PrintChat extends Command {
-
-	private final List<ClientListener> clients;
+	
 	private final ClientListener client;
 	private final Message message;
 
 	public PrintChat(List<ClientListener> clients, List<Chat> chats, List<Chat> roomsServer, ClientListener client,
 			Message message) {
-		this.clients = clients;
 		this.client = client;
 		this.message = message;
 	}

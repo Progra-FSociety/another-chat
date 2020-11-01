@@ -9,10 +9,10 @@ import java.util.stream.Collectors;
 
 public class ExitAll extends Command {
 
-	private final List<Chat> chats;
-	private final List<ClientListener> clients;
-	private final ClientListener client;
-	private final Message message;
+	private List<Chat> chats;
+	private List<ClientListener> clients;
+	private ClientListener client;
+	private Message message;
 
 	public ExitAll(List<ClientListener> clients,
 				   List<Chat> chats,
@@ -25,6 +25,7 @@ public class ExitAll extends Command {
 		this.message = message;
 	}
 
+	@SuppressWarnings("deprecation")
 	public void execute() throws IOException {
 		String clientNick = message.getNick();
 
@@ -44,10 +45,8 @@ public class ExitAll extends Command {
 
 		for (Chat chat : this.chats) {
 			chat.getUsers().remove(clientNick);
-			this.chats.remove(chat);
 		}
-
-		// Hay que matar el hilo del usuario???????????
+		this.chats.clear();
 		client.stop();
 	}
 }

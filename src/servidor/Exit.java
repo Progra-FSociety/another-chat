@@ -12,14 +12,12 @@ public class Exit extends Command {
 	private final List<ClientListener> clients;
 	private final ClientListener client;
 	private final Message message;
-	private List<Chat> chats;
 
 	public Exit(List<ClientListener> clients, List<Chat> chats, List<Chat> roomsServer, ClientListener client,
 			Message message) {
 		this.clients = clients;
 		this.client = client;
 		this.message = message;
-		this.chats = chats;
 	}
 
 	public void execute() throws IOException {
